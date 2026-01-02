@@ -21,9 +21,10 @@ func _on_save_pressed() -> void:
 		nick_input.placeholder_text = "Nickname minimum 3 letters"
 		return
 
+	# ✅ PAYLOAD ALINHADO COM O BACKEND
 	var payload := {
-		"nickname": nick,
-		"score": final_score
+		"player": nick,
+		"points": final_score
 	}
 
 	var json := JSON.stringify(payload)
