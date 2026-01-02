@@ -1,29 +1,36 @@
 package http
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"log"
+	"net/http"
 
-    "jumper-api/internal/domain"
+	"jumper-api/internal/domain"
 )
 
 func CreateScoreHandler(w http.ResponseWriter, r *http.Request) {
-    if r.Method != http.MethodPost {
-        http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-        return
-    }
+	if r.Method != http.MethodPost {
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
-    var score domain.Score
+	log.Println("POST /scores received")
 
-    if err := json.NewDecoder(r.Body).Decode(&score); err != nil {
-        http.Error(w, "invalid payload", http.StatusBadRequest)
-        return
-    }
+	var score domain.Score
 
-    if len(score.Nickname) < 3 || score.Score < 0 {
-        http.Error(w, "invalid data", http.StatusBadRequest)
-        return
-    }
+	if err := json.NewDecoder(r.Body).Decode(&score); err != nil {
+		log.Println("Invalid JSON payload")
+		http.Error(w, "invalid payload", http.StatusBadRequest)
+		return
+	}
 
-    w.WriteHeader(http.StatusCreated)
+	if len(score.Nickname) < 3 || score.Score < 0 {
+		log.Printf("Invalid data: nick=%q score=%d\n", score.Nickname, score.Score)
+		http.Error(w, "invalid data", http.StatusBadRequest)
+		return
+	}
+
+	log.Printf("Score accepted: nick=%q score=%d\n", score.Nickname, score.Score)
+
+	w.WriteHeader(http.StatusCreated)
 }

@@ -52,7 +52,8 @@ func position_player_on_platform(platform: Node2D) -> void:
 
 func _on_player_died() -> void:
 	spawner.stop_spawning()
-	$HUD.show_game_over()
+	game_over.set_score(GameManager.score)
+	game_over.visible = true
 	get_tree().paused = true
 
 func _on_restart_pressed() -> void:

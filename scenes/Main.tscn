@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b6c3m0c3v3s3h"]
+[gd_scene load_steps=15 format=3 uid="uid://b6c3m0c3v3s3h"]
 
 [ext_resource type="PackedScene" uid="uid://hduagr0wpg6q" path="res://scenes/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://c6caykwhfyvdc" path="res://scenes/Platform.tscn" id="2_platform"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://ccjbpgebg1dps" path="res://assets/images/background.png" id="5_bg"]
 [ext_resource type="Script" uid="uid://biq3ud5qih86m" path="res://scripts/KillZone.gd" id="6_c01mt"]
 [ext_resource type="Script" uid="uid://bf4cs4tx6xled" path="res://scripts/HUD.gd" id="6_nxtc6"]
+[ext_resource type="Script" uid="uid://dfrfcu5w6l5qk" path="res://scripts/GameOver.gd" id="7_jlsqs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0, 0, 0, 0.65)
@@ -86,6 +87,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("7_jlsqs")
 
 [node name="Panel" type="Panel" parent="HUD/GameOver"]
 layout_mode = 0
@@ -138,6 +140,16 @@ text = "Restart"
 [node name="Quit" type="Button" parent="HUD/GameOver/Panel/VBox/Buttons"]
 layout_mode = 2
 text = "Quit"
+
+[node name="Save" type="Button" parent="HUD/GameOver/Panel/VBox/Buttons"]
+layout_mode = 2
+text = "Save"
+
+[node name="NickInput" type="LineEdit" parent="HUD/GameOver/Panel/VBox"]
+layout_mode = 2
+placeholder_text = "Enter your nickname (minuimum 3 characters)"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="HUD/GameOver"]
 
 [node name="WallTop" type="StaticBody2D" parent="."]
 collision_layer = 4
