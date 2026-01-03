@@ -8,6 +8,10 @@ extends Node2D
 @export var speed_increment: float = 10.0        # How much platform speed increases
 @export var min_spawn_interval: float = 0.6      # Minimum allowed spawn interval
 
+# Base reference values (IMPORTANT)
+@export var base_spawn_interval: float = 1.1
+@export var base_platform_speed: float = 160.0
+
 
 # =========================================================
 # PLATFORM SETTINGS
@@ -17,9 +21,6 @@ extends Node2D
 
 # Where platforms will be added (assign the "Platforms" Node2D in the Inspector)
 @export var platforms_container_path: NodePath
-
-@export var spawn_interval: float = 1.1
-@export var speed_factor: float = 160.0
 
 @export var initial_platform_count: int = 3
 
@@ -49,6 +50,8 @@ extends Node2D
 # =========================================================
 
 var platform_speed: float
+var spawn_interval: float
+
 var columns_x: Array[float] = []
 var last_column_index: int = -1
 var spawning: bool = false
@@ -67,7 +70,9 @@ var platforms_container: Node2D
 
 func _ready() -> void:
 	calculate_columns()
-	platform_speed = spawn_interval * speed_factor
+
+	platform_speed = base_platform_speed
+	spawn_interval = base_spawn_interval
 
 	platforms_container = get_node_or_null(platforms_container_path) as Node2D
 	if platforms_container == null:
@@ -96,12 +101,17 @@ func increase_difficulty() -> void:
 	# Increase platform falling speed
 	platform_speed += speed_increment
 
-	# Decrease spawn interval, respecting the minimum limit
-	spawn_interval = max(min_spawn_interval, spawn_interval - 0.1)
+	# Proportional spawn interval (speed-aware)
+	var speed_ratio := base_platform_speed / platform_speed
+	spawn_interval = max(
+		min_spawn_interval,
+		base_spawn_interval * speed_ratio
+	)
 
-	# Apply the new speed to all existing platforms (optional but recommended)
+	# Apply the new speed to all existing platforms
 	for platform in platforms_container.get_children():
 		platform.speed = platform_speed
+
 
 # =========================================================
 # INITIAL PLATFORM SPAWN
@@ -124,7 +134,6 @@ func spawn_initial_platforms() -> Array[Node2D]:
 
 	result.append(first)
 
-	# Spawn additional initial platforms immediately
 	while result.size() < initial_platform_count:
 		var p := spawn_platform()
 		if p == null:
@@ -203,7 +212,6 @@ func stop_spawning() -> void:
 
 func spawn_loop() -> void:
 	while spawning:
-		# If the initial platform was not created yet, wait
 		if spawned_count == 0:
 			await get_tree().process_frame
 			continue
@@ -229,28 +237,21 @@ func calculate_columns() -> void:
 
 
 func pick_column_index() -> int:
-	# First platform: any column
 	if last_column_index == -1:
 		return randi() % columns_x.size()
 
 	var options: Array[int] = []
 
 	for i in range(columns_x.size()):
-		var delta: int = abs(i - last_column_index)
-
-		# Enforce alternating columns (adjacent only)
-		if delta == 1:
+		if abs(i - last_column_index) == 1:
 			options.append(i)
 
-	# Safety fallback
 	if options.is_empty():
 		for i in range(columns_x.size()):
 			if i != last_column_index:
 				options.append(i)
 
-	# Explicit random selection (no pick_random)
-	var idx := randi() % options.size()
-	return options[idx]
+	return options[randi() % options.size()]
 
 
 # =========================================================
