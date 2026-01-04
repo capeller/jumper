@@ -1,59 +1,45 @@
 extends Node2D
 
-@onready var player: CharacterBody2D = $Player
+@onready var player: Player = $Player
 @onready var game_over: Control = $HUD/GameOver
+@onready var hud: CanvasLayer = $HUD
 @onready var platforms: Node2D = $Platforms
 @onready var spawner: Node2D = $PlatformSpawner
 
 func _ready() -> void:
-	# Initial HUD state
 	game_over.visible = false
 
-	# =====================================================
-	# INITIAL PLATFORM (SINGLE SOURCE: SPAWNER)
-	# =====================================================
-	var start_platform: Node2D = spawner.spawn_start_platform() as Node2D
+	var start_platform: Node2D = spawner.spawn_start_platform()
 	if start_platform == null:
-		push_error("Failed to create the initial platform (spawn_start_platform returned null).")
+		push_error("Failed to create the initial platform.")
 		return
 
 	position_player_on_platform(start_platform)
 
-	# =====================================================
-	# CONNECTIONS
-	# =====================================================
 	player.died.connect(_on_player_died)
-
-	# =====================================================
-	# START CONTINUOUS SPAWNING
-	# =====================================================
 	spawner.start_spawning()
 
-# =========================================================
-# PLAYER POSITIONING
-# =========================================================
-
 func position_player_on_platform(platform: Node2D) -> void:
-	var collision: CollisionShape2D = player.get_node("CollisionShape2D")
-	var shape: RectangleShape2D = collision.shape
-	var player_height: float = shape.size.y * collision.scale.y
-
-	# Extra offset to start higher
-	var start_offset_y := 80.0
+	var collision := player.get_node("CollisionShape2D") as CollisionShape2D
+	var shape := collision.shape as RectangleShape2D
+	var player_height := shape.size.y * collision.scale.y
 
 	player.global_position = Vector2(
 		platform.global_position.x,
-		platform.global_position.y - player_height / 2.0 - start_offset_y
+		platform.global_position.y - player_height / 2.0 - 80.0
 	)
 
 # =========================================================
 # GAME OVER
 # =========================================================
-
 func _on_player_died() -> void:
 	spawner.stop_spawning()
 	game_over.set_score(GameManager.score)
+
+	hud.on_player_died()
+	$HUD/Controls.visible = false
 	game_over.visible = true
+
 	get_tree().paused = true
 
 func _on_restart_pressed() -> void:

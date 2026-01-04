@@ -80,6 +80,7 @@ layout_mode = 2
 text = "Coins: 0"
 
 [node name="GameOver" type="Control" parent="HUD"]
+process_mode = 2
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -151,6 +152,45 @@ placeholder_text = "Enter your nickname (minuimum 3 characters)"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="HUD/GameOver"]
 
+[node name="Controls" type="Control" parent="HUD"]
+layout_mode = 3
+anchor_right = 0.324
+anchor_bottom = 0.11000001
+offset_top = 1284.0
+offset_right = 696.224
+offset_bottom = 1373.8
+
+[node name="LeftButton" type="Button" parent="HUD/Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.75
+anchor_right = 0.35
+anchor_bottom = 1.0
+offset_top = -294.5
+
+[node name="RightButton" type="Button" parent="HUD/Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.65
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -297.5
+
+[node name="JumpButton" type="Button" parent="HUD/Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.65
+anchor_top = 0.75
+anchor_right = 0.65
+anchor_bottom = 1.0
+offset_left = -307.19995
+offset_top = -294.5
+offset_right = 8.0
+
+[node name="HoldTimer" type="Timer" parent="HUD/Controls"]
+wait_time = 0.15
+
 [node name="WallTop" type="StaticBody2D" parent="."]
 collision_layer = 4
 
@@ -188,4 +228,9 @@ shape = SubResource("RectangleShape2D_nxtc6")
 
 [connection signal="pressed" from="HUD/GameOver/Panel/VBox/Buttons/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="HUD/GameOver/Panel/VBox/Buttons/Quit" to="." method="_on_quit_pressed"]
+[connection signal="button_down" from="HUD/Controls/LeftButton" to="HUD" method="_on_left_button_button_down"]
+[connection signal="button_up" from="HUD/Controls/LeftButton" to="HUD" method="_on_left_button_button_up"]
+[connection signal="button_down" from="HUD/Controls/RightButton" to="HUD" method="_on_right_button_button_down"]
+[connection signal="button_up" from="HUD/Controls/RightButton" to="HUD" method="_on_right_button_button_up"]
+[connection signal="pressed" from="HUD/Controls/JumpButton" to="HUD" method="_on_jump_button_pressed"]
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]
