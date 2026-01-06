@@ -5,14 +5,15 @@ extends CharacterBody2D
 # MOVEMENT CONFIG
 # =========================================================
 @export var speed: float = 500.0
-@export var jump_force: float = 1400.0
+@export var jump_force: float = 1150
 
 # =========================================================
 # GRAVITY CONFIG
 # =========================================================
 @export var gravity: float = 1600.0
-@export var gravity_up: float = 1400.0
-@export var gravity_down: float = 2000.0
+@export var gravity_up: float = 2200.0
+@export var gravity_down: float = 2800.0
+
 
 # =========================================================
 # PLAYER STATE
@@ -44,24 +45,31 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# -----------------------------------------------------
-	# GRAVITY
-	# -----------------------------------------------------
-	if not is_on_floor():
-		velocity.y += gravity * delta
-	else:
-		velocity.y = 0
-
-	# -----------------------------------------------------
-	# HORIZONTAL INPUT (keyboard + touch)
+	# HORIZONTAL INPUT
 	# -----------------------------------------------------
 	var dir := 0
-
 	if Input.is_action_pressed("move_left") or touch_left:
 		dir -= 1
 	if Input.is_action_pressed("move_right") or touch_right:
 		dir += 1
 
 	velocity.x = dir * speed
+
+	# -----------------------------------------------------
+	# JUMP (EVENT FIRST)
+	# -----------------------------------------------------
+	if is_on_floor() and (Input.is_action_just_pressed("jump") or touch_jump):
+		velocity.y = -jump_force
+		touch_jump = false
+
+	# -----------------------------------------------------
+	# GRAVITY
+	# -----------------------------------------------------
+	if not is_on_floor():
+		if velocity.y < 0:
+			velocity.y += gravity_up * delta
+		else:
+			velocity.y += gravity_down * delta
 
 	# -----------------------------------------------------
 	# SPRITE DIRECTION
@@ -71,22 +79,8 @@ func _physics_process(delta: float) -> void:
 	elif dir < 0 and texture_left:
 		sprite.texture = texture_left
 
-	# -----------------------------------------------------
-	# JUMP (EVENT)
-	# -----------------------------------------------------
-	if is_on_floor() and (Input.is_action_just_pressed("jump") or touch_jump):
-		velocity.y = -jump_force
-		touch_jump = false  # consome o evento
-
-	# -----------------------------------------------------
-	# BETTER JUMP FEEL
-	# -----------------------------------------------------
-	if velocity.y < 0:
-		velocity.y += gravity_up * delta
-	else:
-		velocity.y += gravity_down * delta
-
 	move_and_slide()
+
 
 func die() -> void:
 	emit_signal("died")
