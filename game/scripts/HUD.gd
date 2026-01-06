@@ -51,55 +51,25 @@ func show_game_over() -> void:
 # LEFT BUTTON (tap + hold)
 # =========================================================
 func _on_left_button_button_down() -> void:
-	if player == null:
-		return
-
-	holding_left = true
-	holding_right = false
-	hold_timer.stop()
-
-	# TAP impulse (1 frame)
-	player.touch_left = true
-	await get_tree().process_frame
-	if player != null:
-		player.touch_left = false
-
-	hold_timer.start()
+	if player:
+		player.touch_left = true
 
 func _on_left_button_button_up() -> void:
-	if player == null:
-		return
+	if player:
+		player.touch_left = false
 
-	holding_left = false
-	player.touch_left = false
-	hold_timer.stop()
 
 # =========================================================
 # RIGHT BUTTON (tap + hold)
 # =========================================================
 func _on_right_button_button_down() -> void:
-	if player == null:
-		return
-
-	holding_right = true
-	holding_left = false
-	hold_timer.stop()
-
-	# TAP impulse (1 frame)
-	player.touch_right = true
-	await get_tree().process_frame
-	if player != null:
-		player.touch_right = false
-
-	hold_timer.start()
+	if player:
+		player.touch_right = true
 
 func _on_right_button_button_up() -> void:
-	if player == null:
-		return
+	if player:
+		player.touch_right = false
 
-	holding_right = false
-	player.touch_right = false
-	hold_timer.stop()
 
 # =========================================================
 # HOLD TIMER (continuous movement)
@@ -117,22 +87,18 @@ func _on_hold_timer_timeout() -> void:
 # JUMP (EVENT – 1 FRAME, MULTI-TOUCH SAFE)
 # =========================================================
 func _on_jump_button_pressed() -> void:
-	if player == null:
-		return
+	if player:
+		player.touch_jump = true
 
-	player.touch_jump = true
-	await get_tree().process_frame
-	if player != null:
-		player.touch_jump = false
 
 # =========================================================
 # EDITOR / MOUSE SUPPORT (optional but useful)
 # =========================================================
-func _process(_delta: float) -> void:
-	if player == null:
-		return
+# func _process(_delta: float) -> void:
+# 	if player == null:
+# 		return
 
-	if holding_left:
-		player.touch_left = true
-	if holding_right:
-		player.touch_right = true
+# 	if holding_left:
+# 		player.touch_left = true
+# 	if holding_right:
+# 		player.touch_right = true

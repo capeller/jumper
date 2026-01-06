@@ -31,9 +31,9 @@ var health: int
 # =========================================================
 # TOUCH INPUT (setado pelo HUD)
 # =========================================================
-var touch_left: bool = false
-var touch_right: bool = false
-var touch_jump: bool = false
+var touch_left := false
+var touch_right := false
+var touch_jump := false
 
 func _ready() -> void:
 	health = max_health
@@ -44,7 +44,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# -----------------------------------------------------
-	# BASE GRAVITY
+	# GRAVITY
 	# -----------------------------------------------------
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -72,19 +72,19 @@ func _physics_process(delta: float) -> void:
 		sprite.texture = texture_left
 
 	# -----------------------------------------------------
+	# JUMP (EVENT)
+	# -----------------------------------------------------
+	if is_on_floor() and (Input.is_action_just_pressed("jump") or touch_jump):
+		velocity.y = -jump_force
+		touch_jump = false  # consome o evento
+
+	# -----------------------------------------------------
 	# BETTER JUMP FEEL
 	# -----------------------------------------------------
 	if velocity.y < 0:
 		velocity.y += gravity_up * delta
 	else:
 		velocity.y += gravity_down * delta
-
-	# -----------------------------------------------------
-	# JUMP (keyboard + touch)
-	# -----------------------------------------------------
-	if is_on_floor() and (Input.is_action_just_pressed("jump") or touch_jump):
-		velocity.y = -jump_force
-		touch_jump = false # reset touch jump after use
 
 	move_and_slide()
 
