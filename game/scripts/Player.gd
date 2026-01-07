@@ -10,7 +10,6 @@ extends CharacterBody2D
 # =========================================================
 # GRAVITY CONFIG
 # =========================================================
-@export var gravity: float = 1600.0 # (mantido por compatibilidade)
 @export var gravity_up: float = 2200.0
 @export var gravity_down: float = 2800.0
 
@@ -35,12 +34,8 @@ signal died
 var health: int
 
 # =========================================================
-# TOUCH INPUT (setado pelo HUD)
+# INITIALIZATION
 # =========================================================
-var touch_left := false
-var touch_right := false
-var touch_jump := false
-
 func _ready() -> void:
 	health = max_health
 	add_to_group("player")
@@ -48,24 +43,26 @@ func _ready() -> void:
 	if texture_right:
 		sprite.texture = texture_right
 
+# =========================================================
+# PHYSICS
+# =========================================================
 func _physics_process(delta: float) -> void:
 	# -----------------------------------------------------
-	# HORIZONTAL INPUT (keyboard + touch)
+	# HORIZONTAL INPUT (InputMap)
 	# -----------------------------------------------------
 	var dir := 0
-	if Input.is_action_pressed("move_left") or touch_left:
+	if Input.is_action_pressed("move_left"):
 		dir -= 1
-	if Input.is_action_pressed("move_right") or touch_right:
+	if Input.is_action_pressed("move_right"):
 		dir += 1
 
 	velocity.x = dir * speed
 
 	# -----------------------------------------------------
-	# JUMP BUFFER (keyboard + touch)
+	# JUMP BUFFER
 	# -----------------------------------------------------
-	if Input.is_action_just_pressed("jump") or touch_jump:
+	if Input.is_action_just_pressed("jump"):
 		jump_buffer = jump_buffer_time
-		touch_jump = false
 	else:
 		jump_buffer -= delta
 
@@ -80,7 +77,7 @@ func _physics_process(delta: float) -> void:
 	# GRAVITY
 	# -----------------------------------------------------
 	if not is_on_floor():
-		if velocity.y < 0:
+		if velocity.y < 0.0:
 			velocity.y += gravity_up * delta
 		else:
 			velocity.y += gravity_down * delta
@@ -95,6 +92,9 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+# =========================================================
+# DEATH
+# =========================================================
 func die() -> void:
 	emit_signal("died")
 	queue_free()

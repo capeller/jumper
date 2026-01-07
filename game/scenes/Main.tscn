@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b6c3m0c3v3s3h"]
+[gd_scene load_steps=16 format=3 uid="uid://b6c3m0c3v3s3h"]
 
 [ext_resource type="PackedScene" uid="uid://hduagr0wpg6q" path="res://scenes/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://c6caykwhfyvdc" path="res://scenes/Platform.tscn" id="2_platform"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://biq3ud5qih86m" path="res://scripts/KillZone.gd" id="6_c01mt"]
 [ext_resource type="Script" uid="uid://bf4cs4tx6xled" path="res://scripts/HUD.gd" id="6_nxtc6"]
 [ext_resource type="Script" uid="uid://dfrfcu5w6l5qk" path="res://scripts/GameOver.gd" id="7_jlsqs"]
+[ext_resource type="Texture2D" uid="uid://ddm3y0lanbfm" path="res://assets/images/coin2.png" id="8_q8u5g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0, 0, 0, 0.65)
@@ -156,42 +157,31 @@ placeholder_text = "Enter your nickname (minuimum 3 characters)"
 layout_mode = 3
 anchor_right = 0.324
 anchor_bottom = 0.11000001
-offset_top = 1284.0
-offset_right = 696.224
-offset_bottom = 1373.8
+offset_left = 2.0
+offset_top = 1267.0
+offset_right = 698.224
+offset_bottom = 1356.8
 
-[node name="LeftButton" type="Button" parent="HUD/Controls"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.039
-anchor_top = 0.22200002
-anchor_right = 0.19500001
-anchor_bottom = 0.84400004
-offset_left = -0.091999054
-offset_top = -0.05400467
-offset_right = -0.4600067
-offset_bottom = 0.09199524
+[node name="LeftTouchButton" type="TouchScreenButton" parent="HUD/Controls"]
+position = Vector2(52.999992, 33.000053)
+scale = Vector2(0.70724636, 0.7008199)
+texture_normal = ExtResource("8_q8u5g")
+passby_press = true
+action = "move_left"
 
-[node name="RightButton" type="Button" parent="HUD/Controls"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.80500007
-anchor_top = 0.22200002
-anchor_right = 0.95600003
-anchor_bottom = 0.77000004
-offset_left = 0.45996094
-offset_top = -0.05400467
-offset_right = 0.23199463
-offset_bottom = 0.10998535
+[node name="RightTouchButton" type="TouchScreenButton" parent="HUD/Controls"]
+position = Vector2(773, 52)
+scale = Vector2(0.5072464, 0.5081967)
+texture_normal = ExtResource("8_q8u5g")
+passby_press = true
+action = "move_right"
 
-[node name="JumpButton" type="Button" parent="HUD/Controls"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.40300003
-anchor_right = 0.6
-anchor_bottom = 0.77800006
-offset_left = -0.2840271
-offset_bottom = 0.053985596
+[node name="JumpTouchButton" type="TouchScreenButton" parent="HUD/Controls"]
+position = Vector2(451, 44)
+scale = Vector2(0.5826087, 0.64344263)
+texture_normal = ExtResource("8_q8u5g")
+passby_press = true
+action = "jump"
 
 [node name="HoldTimer" type="Timer" parent="HUD/Controls"]
 wait_time = 0.15
@@ -233,9 +223,4 @@ shape = SubResource("RectangleShape2D_nxtc6")
 
 [connection signal="pressed" from="HUD/GameOver/Panel/VBox/Buttons/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="HUD/GameOver/Panel/VBox/Buttons/Quit" to="." method="_on_quit_pressed"]
-[connection signal="button_down" from="HUD/Controls/LeftButton" to="HUD" method="_on_left_button_button_down"]
-[connection signal="button_up" from="HUD/Controls/LeftButton" to="HUD" method="_on_left_button_button_up"]
-[connection signal="button_down" from="HUD/Controls/RightButton" to="HUD" method="_on_right_button_button_down"]
-[connection signal="button_up" from="HUD/Controls/RightButton" to="HUD" method="_on_right_button_button_up"]
-[connection signal="pressed" from="HUD/Controls/JumpButton" to="HUD" method="_on_jump_button_pressed"]
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]
