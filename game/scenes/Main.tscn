@@ -163,35 +163,32 @@ offset_bottom = 1373.8
 [node name="LeftButton" type="Button" parent="HUD/Controls"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.07300001
-anchor_top = 0.282
-anchor_right = 0.35
+anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = -0.044006348
-offset_top = -42.474
+offset_left = 40.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = -40.0
 
 [node name="RightButton" type="Button" parent="HUD/Controls"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.68200004
-anchor_top = 0.5
-anchor_right = 0.94500005
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 23.90393
-offset_top = -49.5
-offset_right = -26.460083
+offset_left = -200.0
+offset_top = -200.0
+offset_right = -40.0
+offset_bottom = -40.0
 
 [node name="JumpButton" type="Button" parent="HUD/Controls"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.41500002
-anchor_top = 0.135
-anchor_right = 0.625
-anchor_bottom = 1.0
-offset_left = 0.37997437
-offset_top = 19.304993
-offset_right = -41.5
-offset_bottom = -42.0
+anchor_left = 0.5
+anchor_right = 0.6
+offset_left = -100.0
+offset_bottom = 200.0
 
 [node name="HoldTimer" type="Timer" parent="HUD/Controls"]
 wait_time = 0.15
