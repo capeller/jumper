@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b6c3m0c3v3s3h"]
+[gd_scene load_steps=20 format=3 uid="uid://b6c3m0c3v3s3h"]
 
 [ext_resource type="PackedScene" uid="uid://hduagr0wpg6q" path="res://scenes/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://c6caykwhfyvdc" path="res://scenes/Platform.tscn" id="2_platform"]
@@ -10,7 +10,9 @@
 [ext_resource type="Script" uid="uid://dfrfcu5w6l5qk" path="res://scripts/GameOver.gd" id="7_jlsqs"]
 [ext_resource type="Texture2D" uid="uid://cuwlce3tuqety" path="res://assets/images/left-button.png" id="8_wp0k4"]
 [ext_resource type="Texture2D" uid="uid://d0mp456g4sfj2" path="res://assets/images/right-button.png" id="9_bjd11"]
+[ext_resource type="Texture2D" uid="uid://b0tu3fcabl1t2" path="res://left-button-p.png" id="9_qmy6f"]
 [ext_resource type="Texture2D" uid="uid://d0dptpagbtbd1" path="res://assets/images/jump-button.png" id="10_qmy6f"]
+[ext_resource type="Texture2D" uid="uid://db1o0qfdull03" path="res://right-button-p.png" id="11_mwfav"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0, 0, 0, 0.65)
@@ -168,6 +170,7 @@ offset_bottom = 1356.8
 position = Vector2(45, 9)
 scale = Vector2(0.3, 0.4)
 texture_normal = ExtResource("8_wp0k4")
+texture_pressed = ExtResource("9_qmy6f")
 passby_press = true
 action = "move_left"
 
@@ -175,6 +178,7 @@ action = "move_left"
 position = Vector2(365, 9)
 scale = Vector2(0.3, 0.4)
 texture_normal = ExtResource("9_bjd11")
+texture_pressed = ExtResource("11_mwfav")
 passby_press = true
 action = "move_right"
 
