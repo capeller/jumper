@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b6c3m0c3v3s3h"]
+[gd_scene load_steps=18 format=3 uid="uid://b6c3m0c3v3s3h"]
 
 [ext_resource type="PackedScene" uid="uid://hduagr0wpg6q" path="res://scenes/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://c6caykwhfyvdc" path="res://scenes/Platform.tscn" id="2_platform"]
@@ -8,7 +8,9 @@
 [ext_resource type="Script" uid="uid://biq3ud5qih86m" path="res://scripts/KillZone.gd" id="6_c01mt"]
 [ext_resource type="Script" uid="uid://bf4cs4tx6xled" path="res://scripts/HUD.gd" id="6_nxtc6"]
 [ext_resource type="Script" uid="uid://dfrfcu5w6l5qk" path="res://scripts/GameOver.gd" id="7_jlsqs"]
-[ext_resource type="Texture2D" uid="uid://ddm3y0lanbfm" path="res://assets/images/coin2.png" id="8_q8u5g"]
+[ext_resource type="Texture2D" uid="uid://cuwlce3tuqety" path="res://assets/images/left-button.png" id="8_wp0k4"]
+[ext_resource type="Texture2D" uid="uid://d0mp456g4sfj2" path="res://assets/images/right-button.png" id="9_bjd11"]
+[ext_resource type="Texture2D" uid="uid://d0dptpagbtbd1" path="res://assets/images/jump-button.png" id="10_qmy6f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0, 0, 0, 0.65)
@@ -163,23 +165,23 @@ offset_right = 698.224
 offset_bottom = 1356.8
 
 [node name="LeftTouchButton" type="TouchScreenButton" parent="HUD/Controls"]
-position = Vector2(52.999992, 33.000053)
-scale = Vector2(0.70724636, 0.7008199)
-texture_normal = ExtResource("8_q8u5g")
+position = Vector2(45, 9)
+scale = Vector2(0.3, 0.4)
+texture_normal = ExtResource("8_wp0k4")
 passby_press = true
 action = "move_left"
 
 [node name="RightTouchButton" type="TouchScreenButton" parent="HUD/Controls"]
-position = Vector2(773, 52)
-scale = Vector2(0.5072464, 0.5081967)
-texture_normal = ExtResource("8_q8u5g")
+position = Vector2(365, 9)
+scale = Vector2(0.3, 0.4)
+texture_normal = ExtResource("9_bjd11")
 passby_press = true
 action = "move_right"
 
 [node name="JumpTouchButton" type="TouchScreenButton" parent="HUD/Controls"]
-position = Vector2(451, 44)
-scale = Vector2(0.5826087, 0.64344263)
-texture_normal = ExtResource("8_q8u5g")
+position = Vector2(685, 9)
+scale = Vector2(0.3, 0.4)
+texture_normal = ExtResource("10_qmy6f")
 passby_press = true
 action = "jump"
 
